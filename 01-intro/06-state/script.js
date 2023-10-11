@@ -1,3 +1,5 @@
+const useState = React.useState;
+
 const pets = [
   { name: "Meowsalot", species: "cat", age: "5", id: 123456789 },
   { name: "Barksalot", species: "dog", age: "3", id: 987654321 },
@@ -12,9 +14,14 @@ function OurApp() {
       <OurHeader />
       <TimeArea />
       <ul>
-        {
-          pets.map(pet => <Pet name={pet.name} species={pet.species} age={pet.age} key={pet.id} />)
-        }
+        {pets.map((pet) => (
+          <Pet
+            name={pet.name}
+            species={pet.species}
+            age={pet.age}
+            key={pet.id}
+          />
+        ))}
       </ul>
       <Footer />
     </>
@@ -34,7 +41,13 @@ function Footer() {
 }
 
 function TimeArea() {
-  return <p>The current time is {new Date().toLocaleString()}</p>;
+  const [theTime, setTheTime] = useState(new Date().toLocaleString());
+
+  setTimeout(function () {
+    setTheTime(new Date().toLocaleString());
+  }, 1000);
+
+  return <p>The current time is {theTime}</p>;
 }
 
 function OurHeader() {
@@ -43,6 +56,4 @@ function OurHeader() {
 
 const root = ReactDOM.createRoot(document.querySelector("#app"));
 
-setInterval(function () {
-  root.render(<OurApp />);
-}, 1000);
+root.render(<OurApp />);
